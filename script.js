@@ -121,7 +121,7 @@ const caseElim = function () {
               promptMsgFunc(15);
               promptMsgFunc(20);
             });
-          }, 2500);
+          }, 1800);
         }, 1500);
         ///////////////////////////////////BANK OFFER/////////////////////////////////
         if (prizes.length === 20)

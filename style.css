@@ -130,7 +130,7 @@ body {
   background-image: url(img/briefcase\ closed.png);
   background-size: cover;
 
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 
 .case-amount {
