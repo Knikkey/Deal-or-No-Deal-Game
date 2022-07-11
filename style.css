@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-image: url(img/Deal\ or\ No\ Deal\ Wallpaper.png);
+  background-size: cover;
+}
+
+.hidden {
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
+.full-grid {
+  display: grid;
+  grid-template-columns: 15fr 70fr 15fr;
+  grid-template-rows: 15fr 70fr 15fr;
+  height: 100vh;
+  row-gap: 2rem;
+}
+
+.prizes-container {
+  background-color: blue;
+  border: 1px solid white;
+  grid-row: 1 / -1;
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.prizes--right {
+  grid-column: 3;
+}
+
+.prize {
+  width: 100%;
+  background-color: yellow;
+  color: #111;
+  text-align: end;
+  font-size: 4.6rem;
+  cursor: default;
+  transition: all 0.8s;
+}
+
+.cases {
+  background-color: orange;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.img-div {
+  cursor: pointer;
+}
+
+.img-div:nth-child(25) {
+  grid-column: 3;
+}
+
+.your-case {
+  background-color: green;
+}
+
+.img-div,
+.player-case {
+  border: 2px solid white;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.player-case {
+  cursor: default;
+}
+
+.case-img {
+  max-width: 70%;
+}
+
+.number {
+  color: black;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -40%);
+  border: solid black 1px;
+  border-radius: 50%;
+  text-align: center;
+
+  font-size: 50px;
+  width: 75px;
+  height: 75px;
+}
+
+.prompt-container {
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.8rem;
+}
+
+.prompt-msg {
+  font-size: 5.4rem;
+}
+
+.case-reveal-modal {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 30vh;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url(img/briefcase\ closed.png);
+  background-size: cover;
+
+  transition: all 0.5s;
+}
+
+.case-amount {
+  font-size: 4.2rem;
+  background-color: yellow;
+  width: 80%;
+  text-align: center;
+}

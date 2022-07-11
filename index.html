@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deal or No Deal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="full-grid">
+      <div class="prizes-container prizes--left"></div>
+      <div class="prompt-container">
+        <span class="prompt-msg">Choose your case.</span>
+      </div>
+      <div class="cases"></div>
+      <div class="your-case">
+        <div class="player-case">
+          <img src="img/briefcase upright.png" />
+          <span class="number player-number"></span>
+        </div>
+      </div>
+      <div class="prizes-container prizes--right"></div>
+    </div>
+    <div class="offer-modal"></div>
+    <div class="case-reveal-modal hidden">
+      <span class="case-amount"></span>
+    </div>
+  </body>
+</html>
