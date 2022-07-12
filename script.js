@@ -61,7 +61,10 @@ const caseRevealModal = document.querySelector(".case-reveal-modal");
 const caseAmount = document.querySelector(".case-amount");
 const offerModal = document.querySelector(".offer-modal");
 const offerAmount = document.querySelector(".offer-amount");
+const btns = document.querySelectorAll(".btn");
 const noDealBtn = document.querySelector(".no-deal-btn");
+const dealBtn = document.querySelector(".deal-btn");
+const bankerOffer = document.querySelector(".banker-offer");
 const prevOffersList = document.querySelector(".previous-offers-list");
 
 const oneMoreCaseMsg = "Please choose 1 more case to open.";
@@ -130,6 +133,7 @@ const caseElim = function () {
               return calc.toLocaleString("en-US");
             };
 
+            ///////////////////////////////////START FIXING/////////////////////////////////
             const prevOffersFunc = (i) => {
               const li = document.createElement("li");
               li.innerText = offers[i];
@@ -137,13 +141,11 @@ const caseElim = function () {
             };
 
             let offers = [];
-
+            ///////////////////////////////////END FIXING/////////////////////////////////
             const offerRoundFunc = function (prizesLength, percent) {
               if (prizes.length === prizesLength) {
                 const offer = `$${offerFunc(percent)}`;
                 offerAmount.innerText = offer;
-                offers.push(offer);
-                console.log(offers);
               }
             };
 
@@ -158,11 +160,13 @@ const caseElim = function () {
             offerRoundFunc(2, 1.08);
 
             noDealBtn.addEventListener("click", () => {
+              hideFunc(offerModal);
               offerModal.classList.add("hidden");
             });
           }, 1);
         }, 1);
       }
+      ///////////////////////////////////PLAYER CASE SELECTION/////////////////////////////////
       if (chosenCase === null) {
         chosenCase = playerNum.innerText = div.lastElementChild.innerText;
         hideFunc(div);
@@ -173,3 +177,9 @@ const caseElim = function () {
 };
 
 caseElim();
+
+dealBtn.addEventListener("click", () => {
+  btns.forEach((btn) => (btn.style.display = "none"));
+  offerModal.style.backgroundImage = "url('img/Deal or No Deal Wallpaper.png')";
+  bankerOffer.innerText = "Deal! You have won: ";
+});
