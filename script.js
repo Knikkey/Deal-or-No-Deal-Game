@@ -121,12 +121,13 @@ const caseElim = function () {
             ///////////////////////////////////BANK OFFER/////////////////////////////////
             const offerFunc = function (percent) {
               hideFunc(offerModal);
+              offerModal.classList.remove("hidden");
+
               const offer = prizes.reduce((acc, prize, _, arr) => {
                 return acc + prize * (1 / arr.length);
               }, 0);
-              return Math.round(
-                (((offer / 100) * 100 * percent) / 100) * 100
-              ).toLocaleString("en-US");
+              const calc = Math.round((offer * percent) / 100) * 100;
+              return calc.toLocaleString("en-US");
             };
 
             const prevOffersFunc = (i) => {
@@ -135,49 +136,32 @@ const caseElim = function () {
               prevOffersList.appendChild(li);
             };
 
-            const offers = [];
+            let offers = [];
 
-            const offerRoundFunc = function () {
-              if (prizes.length === 20) {
-                const offer1 = (offerAmount.innerText = `$${offerFunc(0.2)}`);
-                offers.push(offer1);
-                console.log(offers[0]);
-              }
-              if (prizes.length === 15) {
-                const offer2 = (offerAmount.innerText = `$${offerFunc(0.3)}`);
-                offers.push(offer2);
+            const offerRoundFunc = function (prizesLength, percent) {
+              if (prizes.length === prizesLength) {
+                const offer = `$${offerFunc(percent)}`;
+                offerAmount.innerText = offer;
+                offers.push(offer);
                 console.log(offers);
-                prevOffersFunc(0);
-              }
-              if (prizes.length === 11) {
-                const offer3 = (offerAmount.innerText = `$${offerFunc(0.6)}`);
-              }
-              if (prizes.length === 8) {
-                const offer4 = (offerAmount.innerText = `$${offerFunc(0.8)}`);
-              }
-              if (prizes.length === 6) {
-                const offer5 = (offerAmount.innerText = `$${offerFunc(0.9)}`);
-              }
-              if (prizes.length === 5) {
-                const offer6 = (offerAmount.innerText = `$${offerFunc(1)}`);
-              }
-              if (prizes.length === 4) {
-                const offer7 = (offerAmount.innerText = `$${offerFunc(1.1)}`);
-              }
-              if (prizes.length === 3) {
-                const offer8 = (offerAmount.innerText = `$${offerFunc(1.2)}`);
-              }
-              if (prizes.length === 2) {
-                const offer9 = (offerAmount.innerText = `$${offerFunc(1.25)}`);
               }
             };
-            offerRoundFunc();
+
+            offerRoundFunc(20, 0.2);
+            offerRoundFunc(15, 0.3);
+            offerRoundFunc(11, 0.5);
+            offerRoundFunc(8, 0.7);
+            offerRoundFunc(6, 0.9);
+            offerRoundFunc(5, 1);
+            offerRoundFunc(4, 1.02);
+            offerRoundFunc(3, 1.05);
+            offerRoundFunc(2, 1.08);
 
             noDealBtn.addEventListener("click", () => {
               offerModal.classList.add("hidden");
             });
-          }, 1800);
-        }, 1500);
+          }, 1);
+        }, 1);
       }
       if (chosenCase === null) {
         chosenCase = playerNum.innerText = div.lastElementChild.innerText;
