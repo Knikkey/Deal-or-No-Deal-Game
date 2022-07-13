@@ -53,8 +53,8 @@ renderCases();
 //////////////////////////////////////////////////////////////////////////////
 // Game logic
 const imgDiv = document.querySelectorAll(".img-div");
-const playerNum = document.querySelector(".player-number");
-const playerCase = document.querySelector(".player-case");
+const playerNum = document.querySelectorAll(".player-number");
+const playerCase = document.querySelectorAll(".player-case");
 const prizesAll = document.querySelectorAll(".prize");
 const promptMsg = document.querySelector(".prompt-msg");
 const caseRevealModal = document.querySelector(".case-reveal-modal");
@@ -66,6 +66,7 @@ const noDealBtn = document.querySelector(".no-deal-btn");
 const dealBtn = document.querySelector(".deal-btn");
 const bankerOffer = document.querySelector(".banker-offer");
 const prevOffersList = document.querySelector(".previous-offers-list");
+const lastCase = document.querySelector(".last-case");
 
 const oneMoreCaseMsg = "Please choose 1 more case to open.";
 let chosenCase = null;
@@ -77,10 +78,8 @@ const caseElim = function () {
       ///////////////////////////////////CALCULATE CASE AMOUNT/////////////////////////////////
       if (chosenCase) {
         const i = Math.round(Math.random() * (prizes.length - 1));
-        console.log(i);
         const prizeAmount = `$${prizes[i].toLocaleString("en-US")}`;
         prizes.splice(i, 1);
-        console.log(prizeAmount);
 
         ///////////////////////////////////HIDE CASES & PRIZES/////////////////////////////////
 
@@ -158,17 +157,13 @@ const caseElim = function () {
             offerRoundFunc(4, 1.02);
             offerRoundFunc(3, 1.05);
             offerRoundFunc(2, 1.08);
-
-            noDealBtn.addEventListener("click", () => {
-              hideFunc(offerModal);
-              offerModal.classList.add("hidden");
-            });
           }, 1);
         }, 1);
       }
       ///////////////////////////////////PLAYER CASE SELECTION/////////////////////////////////
       if (chosenCase === null) {
-        chosenCase = playerNum.innerText = div.lastElementChild.innerText;
+        chosenCase = div.lastElementChild.innerText;
+        playerNum.forEach((num) => (num.innerText = chosenCase));
         hideFunc(div);
         promptMsg.innerText = `Please choose 6 more cases to open`;
       }
@@ -178,8 +173,15 @@ const caseElim = function () {
 
 caseElim();
 
+///////////////////////////////////NO DEAL/////////////////////////////////
+noDealBtn.addEventListener("click", () => {
+  hideFunc(offerModal);
+  offerModal.classList.add("hidden");
+});
+///////////////////////////////////DEAL/////////////////////////////////
 dealBtn.addEventListener("click", () => {
   btns.forEach((btn) => (btn.style.display = "none"));
   offerModal.style.backgroundImage = "url('img/Deal or No Deal Wallpaper.png')";
   bankerOffer.innerText = "Deal! You have won: ";
+  lastCase.classList.remove("hidden");
 });

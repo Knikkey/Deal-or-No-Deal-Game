@@ -53,8 +53,6 @@ body {
 }
 
 .prizes-container {
-  background-color: blue;
-  border: 1px solid white;
   grid-row: 1 / -1;
   padding: 1rem;
 
@@ -73,12 +71,12 @@ body {
   color: #111;
   text-align: end;
   font-size: 4.6rem;
+  padding: 0 1rem;
   cursor: default;
   transition: all 0.8s;
 }
 
 .cases {
-  background-color: orange;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(5, 1fr);
@@ -92,13 +90,8 @@ body {
   grid-column: 3;
 }
 
-.your-case {
-  background-color: green;
-}
-
 .img-div,
 .player-case {
-  border: 2px solid white;
   width: 100%;
   margin: auto;
   position: relative;
@@ -131,7 +124,6 @@ body {
 }
 
 .prompt-container {
-  background-color: red;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,6 +132,8 @@ body {
 
 .prompt-msg {
   font-size: 5.4rem;
+  color: white;
+  background-color: black;
 }
 
 /* ********************* */
@@ -243,3 +237,10 @@ body {
 /* ********************* */
 /* GAME OVER */
 /* ********************* */
+.last-case {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
