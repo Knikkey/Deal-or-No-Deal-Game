@@ -54,16 +54,27 @@ renderCases();
 
 //////////////////////////////////////////////////////////////////////////////
 // Game logic
+
+/////////////////Case variables
 const imgDiv = document.querySelectorAll(".img-div");
 const playerNum = document.querySelectorAll(".player-number");
 const lastPlayerNum = document.querySelector("#last-player-number");
 const playerCase = document.querySelectorAll(".player-case");
 const playerCaseContainer = document.querySelector(".your-case");
+const lastCase = document.querySelector(".last-case");
+
+/////////////////Prize board variables
 const prizesAll = document.querySelectorAll(".prize");
+
+/////////////////Prompt section variables
 const promptMsg = document.querySelector(".prompt-msg");
 const promptContainer = document.querySelector(".prompt-container");
+
+/////////////////Amount reveal variables
 const caseRevealModal = document.querySelector(".case-reveal-modal");
 const caseAmount = document.querySelector(".case-amount");
+
+///////////////////Offer Variables
 const offerModal = document.querySelector(".offer-modal");
 const offerLine = document.querySelector(".offer-line");
 const offerAmount = document.querySelector(".offer-amount");
@@ -72,12 +83,13 @@ const noDealBtn = document.querySelector(".no-deal-btn");
 const dealBtn = document.querySelector(".deal-btn");
 const bankerOffer = document.querySelector(".banker-offer");
 const prevOffersList = document.querySelector(".previous-offers-list");
-const lastCase = document.querySelector(".last-case");
+const previousOffersBox = document.querySelector(".previous-offers-box");
 
+///////////////////Misc variables
 const oneMoreCaseMsg = "Please choose 1 more case to open.";
 let chosenCase = null;
 const hideFunc = (el) => el.classList.toggle("hidden");
-
+///////////////////GAME LOGIC
 const caseElim = function () {
   imgDiv.forEach((div) => {
     div.addEventListener("click", function () {
@@ -92,7 +104,6 @@ const caseElim = function () {
 
         const offerFunc = function (percent) {
           hideFunc(offerModal);
-          offerModal.classList.remove("hidden");
 
           const offer = prizes.reduce((acc, prize, _, arr) => {
             return acc + prize * (1 / arr.length);
@@ -121,6 +132,7 @@ const caseElim = function () {
               }
 
               div.classList.add("hidden");
+
               caseRevealModal.style.backgroundImage =
                 "url('img/briefcase closed.png')";
               caseAmount.innerText = "";
@@ -240,7 +252,7 @@ const caseElim = function () {
 const endGameScreen = (innerText) => {
   btns.forEach((btn) => (btn.style.display = "none"));
   offerModal.style.backgroundImage = "url('img/Deal or No Deal Wallpaper.png')";
-  lastCase.classList.remove("hidden");
+  hideFunc(lastCase);
 
   bankerOffer.innerText = `${innerText}`;
 
@@ -263,7 +275,7 @@ dealBtn.addEventListener("click", () => {
   const endGameMsg = document.createElement("span");
   endGameMsg.innerText = "Open your case to see if you made a good deal!";
   endGameMsg.classList.add("end-game-msg");
-  offerModal.append(endGameMsg);
+  previousOffersBox.insertAdjacentElement("beforebegin", endGameMsg);
 });
 
 ///////////////////////////////////NO DEAL/////////////////////////////////
