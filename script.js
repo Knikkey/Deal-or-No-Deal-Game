@@ -234,8 +234,8 @@ const caseElim = function () {
             offerRoundFunc(4, 0.9);
             offerRoundFunc(3, 1);
             offerRoundFunc(2, 1.05);
-          }, 1);
-        }, 1);
+          }, 1800);
+        }, 1300);
       }
       ///////////////////////////////////PLAYER CASE SELECTION/////////////////////////////////
       if (chosenCase === null) {
