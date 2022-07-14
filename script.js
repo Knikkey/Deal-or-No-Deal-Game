@@ -5,6 +5,8 @@ const prizes = [
   25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 750000, 1000000,
 ];
 
+const offers = [];
+
 //////////////////////////////////////////////////////////////////////////////
 // Render board
 
@@ -95,28 +97,12 @@ const caseElim = function () {
           const offer = prizes.reduce((acc, prize, _, arr) => {
             return acc + prize * (1 / arr.length);
           }, 0);
+
           const calc = Math.round((offer * percent) / 100) * 100;
+          offers.push(calc.toLocaleString("en-US"));
+          console.log(offers);
           return calc.toLocaleString("en-US");
         };
-
-        ///////////////////////////////////OFFER ROUND/////////////////////////////////
-
-        const offerRoundFunc = function (prizesLength, percent) {
-          if (prizes.length === prizesLength) {
-            const offer = `$${offerFunc(percent)}`;
-            offerAmount.innerText = offer;
-          }
-        };
-
-        offerRoundFunc(20, 0.2);
-        offerRoundFunc(15, 0.3);
-        offerRoundFunc(11, 0.5);
-        offerRoundFunc(8, 0.7);
-        offerRoundFunc(6, 0.9);
-        offerRoundFunc(5, 1);
-        offerRoundFunc(4, 1.02);
-        offerRoundFunc(3, 1.05);
-        offerRoundFunc(2, 1.08);
 
         ///////////////////////////////////HIDE CASES & PRIZES/////////////////////////////////
 
@@ -208,16 +194,34 @@ const caseElim = function () {
             }
 
             ///////////////////////////////////START FIXING/////////////////////////////////
-            const prevOffersFunc = (i) => {
+            const prevOffersFunc = () => {
               const li = document.createElement("li");
-              li.innerText = offers[i];
+              li.innerText = `$${offers[offers.length - 2]}`;
               prevOffersList.appendChild(li);
             };
 
-            let offers = [];
             ///////////////////////////////////END FIXING/////////////////////////////////
 
-            /////Offer round////
+            ///////////////////////////////////OFFER ROUND/////////////////////////////////
+
+            const offerRoundFunc = function (prizesLength, percent) {
+              if (prizes.length === prizesLength) {
+                const offer = `$${offerFunc(percent)}`;
+                offerAmount.innerText = offer;
+
+                if (prizesLength <= 15) prevOffersFunc();
+              }
+            };
+
+            offerRoundFunc(20, 0.2);
+            offerRoundFunc(15, 0.3);
+            offerRoundFunc(11, 0.4);
+            offerRoundFunc(8, 0.6);
+            offerRoundFunc(6, 0.7);
+            offerRoundFunc(5, 0.8);
+            offerRoundFunc(4, 0.9);
+            offerRoundFunc(3, 1);
+            offerRoundFunc(2, 1.05);
           }, 1);
         }, 1);
       }
