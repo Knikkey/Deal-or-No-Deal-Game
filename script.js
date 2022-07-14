@@ -54,12 +54,16 @@ renderCases();
 // Game logic
 const imgDiv = document.querySelectorAll(".img-div");
 const playerNum = document.querySelectorAll(".player-number");
+const lastPlayerNum = document.querySelector("#last-player-number");
 const playerCase = document.querySelectorAll(".player-case");
+const playerCaseContainer = document.querySelector(".your-case");
 const prizesAll = document.querySelectorAll(".prize");
 const promptMsg = document.querySelector(".prompt-msg");
+const promptContainer = document.querySelector(".prompt-container");
 const caseRevealModal = document.querySelector(".case-reveal-modal");
 const caseAmount = document.querySelector(".case-amount");
 const offerModal = document.querySelector(".offer-modal");
+const offerLine = document.querySelector(".offer-line");
 const offerAmount = document.querySelector(".offer-amount");
 const btns = document.querySelectorAll(".btn");
 const noDealBtn = document.querySelector(".no-deal-btn");
@@ -75,11 +79,44 @@ const hideFunc = (el) => el.classList.toggle("hidden");
 const caseElim = function () {
   imgDiv.forEach((div) => {
     div.addEventListener("click", function () {
-      ///////////////////////////////////CALCULATE CASE AMOUNT/////////////////////////////////
       if (chosenCase) {
+        ///////////////////////////////////CALCULATE CASE AMOUNT/////////////////////////////////
+
         const i = Math.round(Math.random() * (prizes.length - 1));
         const prizeAmount = `$${prizes[i].toLocaleString("en-US")}`;
         prizes.splice(i, 1);
+
+        ///////////////////////////////////CALCULATE BANK OFFER/////////////////////////////////
+
+        const offerFunc = function (percent) {
+          hideFunc(offerModal);
+          offerModal.classList.remove("hidden");
+
+          const offer = prizes.reduce((acc, prize, _, arr) => {
+            return acc + prize * (1 / arr.length);
+          }, 0);
+          const calc = Math.round((offer * percent) / 100) * 100;
+          return calc.toLocaleString("en-US");
+        };
+
+        ///////////////////////////////////OFFER ROUND/////////////////////////////////
+
+        const offerRoundFunc = function (prizesLength, percent) {
+          if (prizes.length === prizesLength) {
+            const offer = `$${offerFunc(percent)}`;
+            offerAmount.innerText = offer;
+          }
+        };
+
+        offerRoundFunc(20, 0.2);
+        offerRoundFunc(15, 0.3);
+        offerRoundFunc(11, 0.5);
+        offerRoundFunc(8, 0.7);
+        offerRoundFunc(6, 0.9);
+        offerRoundFunc(5, 1);
+        offerRoundFunc(4, 1.02);
+        offerRoundFunc(3, 1.05);
+        offerRoundFunc(2, 1.08);
 
         ///////////////////////////////////HIDE CASES & PRIZES/////////////////////////////////
 
@@ -104,13 +141,14 @@ const caseElim = function () {
 
               ///////////////////////////////////CHANGE PROMPT MSG/////////////////////////////////
               const promptMsgFunc = function (number) {
-                if (prizes.length > number) {
+                if (prizes.length > number)
                   promptMsg.innerText = `Please choose ${
                     prizes.length - number
                   } more cases to open.`;
-                  if (prizes.length - number === 1)
-                    promptMsg.innerText = oneMoreCaseMsg;
-                }
+                if (prizes.length - number === 1 && prizes.length > 2)
+                  promptMsg.innerText = oneMoreCaseMsg;
+                if (prizes.length === 2)
+                  promptMsg.innerText = "Would you like to swap your case? \n";
               };
 
               promptMsgFunc(6);
@@ -120,17 +158,54 @@ const caseElim = function () {
               promptMsgFunc(20);
             });
 
-            ///////////////////////////////////BANK OFFER/////////////////////////////////
-            const offerFunc = function (percent) {
-              hideFunc(offerModal);
-              offerModal.classList.remove("hidden");
+            ///////////////////////////////////LAST 2 CASES/////////////////////////////////
 
-              const offer = prizes.reduce((acc, prize, _, arr) => {
-                return acc + prize * (1 / arr.length);
-              }, 0);
-              const calc = Math.round((offer * percent) / 100) * 100;
-              return calc.toLocaleString("en-US");
-            };
+            if (prizes.length === 2) {
+              const btnBox = document.createElement("div");
+              const yesBtn = document.createElement("button");
+              const noBtn = document.createElement("button");
+
+              btnBox.classList.add("btn-box", "hidden");
+              yesBtn.classList.add("deal-btn", "btn");
+              noBtn.classList.add("no-deal-btn", "btn");
+
+              noDealBtn.addEventListener(
+                "click",
+                () => (btnBox.style.zIndex = 2)
+              );
+
+              yesBtn.innerText = "Yes";
+              noBtn.innerText = "No";
+
+              promptContainer.append(btnBox);
+              btnBox.append(yesBtn, noBtn);
+
+              const overlay = document.createElement("div");
+              overlay.classList.add("modal", "overlay");
+              cases.append(overlay);
+
+              const btnResults = () => {
+                hideFunc(offerModal);
+                offerAmount.innerText = "";
+                endGameScreen("Open your case and reveal your prize!");
+                btnBox.style.display = "none";
+              };
+
+              noBtn.addEventListener("click", () => {
+                btnResults();
+              });
+
+              yesBtn.addEventListener("click", () => {
+                btnResults();
+                const otherCase = document.querySelector(
+                  ".img-div:not(.hidden)"
+                );
+                const otherCaseNum =
+                  otherCase.querySelector(".number").innerText;
+
+                lastPlayerNum.innerText = otherCaseNum;
+              });
+            }
 
             ///////////////////////////////////START FIXING/////////////////////////////////
             const prevOffersFunc = (i) => {
@@ -141,22 +216,8 @@ const caseElim = function () {
 
             let offers = [];
             ///////////////////////////////////END FIXING/////////////////////////////////
-            const offerRoundFunc = function (prizesLength, percent) {
-              if (prizes.length === prizesLength) {
-                const offer = `$${offerFunc(percent)}`;
-                offerAmount.innerText = offer;
-              }
-            };
 
-            offerRoundFunc(20, 0.2);
-            offerRoundFunc(15, 0.3);
-            offerRoundFunc(11, 0.5);
-            offerRoundFunc(8, 0.7);
-            offerRoundFunc(6, 0.9);
-            offerRoundFunc(5, 1);
-            offerRoundFunc(4, 1.02);
-            offerRoundFunc(3, 1.05);
-            offerRoundFunc(2, 1.08);
+            /////Offer round////
           }, 1);
         }, 1);
       }
@@ -171,17 +232,40 @@ const caseElim = function () {
   });
 };
 
-caseElim();
+///////////////////////////////////DEAL/////////////////////////////////
+const endGameScreen = (innerText) => {
+  btns.forEach((btn) => (btn.style.display = "none"));
+  offerModal.style.backgroundImage = "url('img/Deal or No Deal Wallpaper.png')";
+  lastCase.classList.remove("hidden");
+
+  bankerOffer.innerText = `${innerText}`;
+
+  lastCase.addEventListener("click", () => {
+    const i = Math.round(Math.random() * (prizes.length - 1));
+    const prizeAmount = `$${prizes[i].toLocaleString("en-US")}`;
+    prizes.splice(i, 1);
+    hideFunc(caseRevealModal);
+    hideFunc(lastCase);
+    setTimeout(() => {
+      caseRevealModal.style.backgroundImage = "url('img/briefcase open.png')";
+      caseAmount.innerText = prizeAmount;
+    }, 1800);
+  });
+};
+
+dealBtn.addEventListener("click", () => {
+  endGameScreen("Deal! You have won: ");
+
+  const endGameMsg = document.createElement("span");
+  endGameMsg.innerText = "Open your case to see if you made a good deal!";
+  endGameMsg.classList.add("end-game-msg");
+  offerModal.append(endGameMsg);
+});
 
 ///////////////////////////////////NO DEAL/////////////////////////////////
 noDealBtn.addEventListener("click", () => {
   hideFunc(offerModal);
   offerModal.classList.add("hidden");
 });
-///////////////////////////////////DEAL/////////////////////////////////
-dealBtn.addEventListener("click", () => {
-  btns.forEach((btn) => (btn.style.display = "none"));
-  offerModal.style.backgroundImage = "url('img/Deal or No Deal Wallpaper.png')";
-  bankerOffer.innerText = "Deal! You have won: ";
-  lastCase.classList.remove("hidden");
-});
+
+caseElim();

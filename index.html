@@ -14,6 +14,7 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="queries.css" />
     <script defer src="script.js"></script>
   </head>
   <body>
@@ -32,13 +33,17 @@
       <!-- last case -->
       <div class="your-case last-case hidden">
         <div class="player-case">
-          <img src="img/briefcase upright.png" />
-          <span class="number player-number"></span>
+          <img src="img/briefcase upright.png" alt="player's chosen case" />
+          <span
+            class="number player-number last-player-number"
+            id="last-player-number"
+          ></span>
         </div>
       </div>
       <div class="prizes-container prizes--right"></div>
     </div>
     <!-- ////////////////////////////////////// -->
+
     <div class="modal offer-modal hidden">
       <span class="offer-line"
         ><span class="banker-offer">The banker's offer: </span
