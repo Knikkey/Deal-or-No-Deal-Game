@@ -27,3 +27,95 @@
     font-size: 3.2rem;
   }
 }
+
+@media (max-width: 36em) {
+  .prompt-msg {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .cases {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .img-div:nth-child(25) {
+    grid-column: 1;
+  }
+
+  .img-div:nth-child(26) {
+    grid-column: 3;
+  }
+
+  .prize {
+    font-size: 2rem;
+    padding: 0 0.5rem;
+  }
+
+  .number {
+    font-size: 1.4rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .case-img {
+    max-width: 95%;
+  }
+
+  .player-case {
+    height: 6rem;
+    width: 6rem;
+  }
+
+  .case-amount {
+    font-size: 3rem;
+  }
+
+  .offer-modal {
+    width: 60%;
+  }
+
+  .offer-line {
+    font-size: 3rem;
+    margin: 3rem 0;
+  }
+
+  .offer-amount {
+    font-size: 4rem;
+  }
+
+  .btn {
+    font-size: 2rem;
+    border: black 3px solid;
+    width: 10rem;
+    padding: 0.5rem 0;
+  }
+
+  .btn-box {
+    gap: 2rem;
+  }
+
+  .previous-offers-box {
+    width: 80%;
+    margin: 2rem auto;
+    color: white;
+    font-size: 3rem;
+
+    padding: 0 2rem;
+  }
+
+  .previous-offers-title {
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .last-case {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+  }
+
+  .end-game-msg {
+    font-size: 2rem;
+  }
+}
